@@ -1,0 +1,203 @@
+Алгоритм обхода в глубину (DFS - Depth-First Search) - это алгоритм для поиска или обхода всех элементов в графе или дереве. Приведу примеры реализации алгоритма обхода в глубину на JavaScript и на чистом языке Си.
+
+### Алгоритм обхода в глубину на JavaScript:
+
+```javascript
+// Функция для обхода в глубину
+function dfs(graph, start) {
+    const visited = new Set();
+
+    function explore(node) {
+        visited.add(node);
+        console.log(node); // или выполняйте другие операции, вместо вывода на консоль
+
+        const neighbors = graph[node];
+        for (let i = 0; i < neighbors.length; i++) {
+            if (!visited.has(neighbors[i])) {
+                explore(neighbors[i]);
+            }
+        }
+    }
+
+    explore(start);
+}
+```
+
+### Алгоритм обхода в глубину на чистом Си:
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_NODES 100
+
+// Функция для обхода в глубину
+void dfs(int** graph, int* visited, int start, int n) {
+    visited[start] = 1;
+    printf("%d ", start); // или выполняйте другие операции, вместо вывода на консоль
+
+    for (int i = 0; i < n; i++) {
+        if (graph[start][i] && !visited[i]) {
+            dfs(graph, visited, i, n);
+        }
+    }
+}
+
+int main() {
+    int n; // Количество вершин в графе
+    int start; // Начальная вершина для обхода
+    int** graph = (int**)malloc(MAX_NODES * sizeof(int*));
+    int* visited = (int*)calloc(MAX_NODES, sizeof(int));
+
+    printf("Введите количество вершин в графе: ");
+    scanf("%d", &n);
+
+    printf("Введите матрицу смежности графа:\n");
+    for (int i = 0; i < n; i++) {
+        graph[i] = (int*)malloc(n * sizeof(int));
+        for (int j = 0; j < n; j++) {
+            scanf("%d", &graph[i][j]);
+        }
+    }
+
+    printf("Введите начальную вершину для обхода: ");
+    scanf("%d", &start);
+    printf("Результат обхода в глубину: ");
+    dfs(graph, visited, start, n);
+
+    return 0;
+}
+```
+
+Оба этих примера реализуют алгоритм обхода в глубину. Алгоритм начинает с указанной вершины и рекурсивно исследует все доступные вершины, "спускаясь" вглубь графа или дерева по одному пути до достижения конечного узла, затем возвращает до следующей доступной вершины. Для визуализации выводится информация о каждой посещенной вершине.
+
+Алгоритм связности (Connectivity algorithm) используется для определения, связаны ли вершины в графе. Вот примеры алгоритма связности на JavaScript и на чистом C:
+JavaScript:
+function isConnected(graph) {
+  const visited = new Array(graph.length).fill(false);
+  const stack = [];
+  
+  stack.push(0);
+  
+  while (stack.length > 0) {
+    const vertex = stack.pop();
+    
+    if (!visited[vertex]) {
+      visited[vertex] = true;
+      
+      for (let i = 0; i < graph[vertex].length; i++) {
+        if (graph[vertex][i] !== 0 && !visited[i]) {
+          stack.push(i);
+        }
+      }
+    }
+  }
+  
+  return visited.every((isVisited) => isVisited);
+}
+const graph = [
+  [0, 1, 1, 0],
+  [1, 0, 0, 1],
+  [1, 0, 0, 1],
+  [0, 1, 1, 0]
+];
+const connected = isConnected(graph);
+console.log(connected); // Output: true
+
+Чистый C:
+#include <stdio.h>
+#include <stdbool.h>
+#define NUM_VERTICES 4
+void DFS(bool graph[NUM_VERTICES][NUM_VERTICES], bool visited[], int vertex) {
+  visited[vertex] = true;
+  
+  for (int i = 0; i < NUM_VERTICES; i++) {
+    if (graph[vertex][i] && !visited[i]) {
+      DFS(graph, visited, i);
+    }
+  }
+}
+bool isConnected(bool graph[NUM_VERTICES][NUM_VERTICES]) {
+  bool visited[NUM_VERTICES] = {false};
+  
+  DFS(graph, visited, 0);
+  
+  for (int i = 0; i < NUM_VERTICES; i++) {
+    if (!visited[i]) {
+      return false;
+    }
+  }
+  
+  return true;
+}
+int main() {
+  bool graph[NUM_VERTICES][NUM_VERTICES] = {
+    {false, true, true, false},
+    {true, false, false, true},
+    {true, false, false, true},
+    {false, true, true, false}
+  };
+  
+  bool connected = isConnected(graph);
+  
+  if (connected) {
+    printf("Graph is connected\n");
+  } else {
+    printf("Graph is not connected\n");
+  }
+  
+  return 0;
+}
+
+Оба примера реализуют алгоритм связности для проверки, является ли граф связным. В JavaScript примере используется рекурсивный обход графа в глубину (DFS) с использованием стека, а в C примере используется рекурсивный обход графа в глубину (DFS) с помощью рекурсивной функции. Результатом в обоих примерах является булево значение, указывающее, является ли граф связным или нет.
+
+Вот примеры алгоритма обхода в глубину (Depth-First Search, DFS) на JavaScript и на чистом C:
+JavaScript:
+function DFS(graph, start, visited = new Set()) {
+  console.log(start);
+  visited.add(start);
+  
+  for (let i = 0; i < graph[start].length; i++) {
+    if (graph[start][i] && !visited.has(i)) {
+      DFS(graph, i, visited);
+    }
+  }
+}
+const graph = [
+  [0, 1, 1, 0],
+  [1, 0, 0, 1],
+  [1, 0, 0, 1],
+  [0, 1, 1, 0]
+];
+DFS(graph, 0);
+
+Чистый C:
+#include <stdio.h>
+#include <stdbool.h>
+#define NUM_VERTICES 4
+void DFS(bool graph[NUM_VERTICES][NUM_VERTICES], int start, bool visited[NUM_VERTICES]) {
+  printf("%d ", start);
+  visited[start] = true;
+  
+  for (int i = 0; i < NUM_VERTICES; i++) {
+    if (graph[start][i] && !visited[i]) {
+      DFS(graph, i, visited);
+    }
+  }
+}
+int main() {
+  bool graph[NUM_VERTICES][NUM_VERTICES] = {
+    {false, true, true, false},
+    {true, false, false, true},
+    {true, false, false, true},
+    {false, true, true, false}
+  };
+  
+  bool visited[NUM_VERTICES] = {false};
+  
+  DFS(graph, 0, visited);
+  
+  return 0;
+}
+
+Оба примера реализуют алгоритм обхода в глубину (DFS) для прохождения через все вершины графа. В JavaScript примере используется рекурсия и множество для отслеживания посещенных вершин, а в C примере используется рекурсия и массив для отслеживания посещенных вершин. В результате выполнения оба примера выводят на консоль порядок посещения вершин.

@@ -1,0 +1,72 @@
+Алгоритм для определения количества маршрутов в графе называется алгоритмом подсчета путей (Count Paths algorithm). Вот примеры алгоритма на JavaScript и на чистом C:
+JavaScript:
+function countPaths(graph, start, end, visited = new Set()) {
+  if (start === end) {
+    return 1;
+  }
+  
+  visited.add(start);
+  let count = 0;
+  
+  for (let i = 0; i < graph.length; i++) {
+    if (graph[start][i] && !visited.has(i)) {
+      count += countPaths(graph, i, end, visited);
+    }
+  }
+  
+  visited.delete(start);
+  
+  return count;
+}
+const graph = [
+  [0, 1, 1, 0],
+  [1, 0, 0, 1],
+  [1, 0, 0, 1],
+  [0, 1, 1, 0]
+];
+const start = 0;
+const end = 3;
+const numPaths = countPaths(graph, start, end);
+console.log(numPaths); // Output: 4
+
+Чистый C:
+#include <stdio.h>
+#define NUM_VERTICES 4
+int countPaths(bool graph[NUM_VERTICES][NUM_VERTICES], int start, int end, bool visited[NUM_VERTICES]) {
+  if (start == end) {
+    return 1;
+  }
+  
+  visited[start] = true;
+  int count = 0;
+  
+  for (int i = 0; i < NUM_VERTICES; i++) {
+    if (graph[start][i] && !visited[i]) {
+      count += countPaths(graph, i, end, visited);
+    }
+  }
+  
+  visited[start] = false;
+  
+  return count;
+}
+int main() {
+  bool graph[NUM_VERTICES][NUM_VERTICES] = {
+    {false, true, true, false},
+    {true, false, false, true},
+    {true, false, false, true},
+    {false, true, true, false}
+  };
+  
+  int start = 0;
+  int end = 3;
+  bool visited[NUM_VERTICES] = {false};
+  
+  int numPaths = countPaths(graph, start, end, visited);
+  
+  printf("Number of paths: %d\n", numPaths);
+  
+  return 0;
+}
+
+Оба примера реализуют алгоритм подсчета путей для определения количества маршрутов между двумя вершинами в графе. В JavaScript примере используется рекурсия и множество для отслеживания посещенных вершин, а в C примере используется рекурсия и массив для отслеживания посещенных вершин. Результатом в обоих примерах является количество маршрутов между заданными вершинами.

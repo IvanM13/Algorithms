@@ -1,0 +1,95 @@
+Корневая сортировка, также известная как сортировка подсчетом, - это алгоритм сортировки, который сначала подсчитывает количество вхождений каждого элемента в массиве, а затем использует эти счетчики для определения порядка элементов.
+Вот пример реализации корневой сортировки на JavaScript:
+```javascript
+function radixSort(arr) {
+  // Находим максимальное число в массиве
+  const max = Math.max(...arr);
+  
+  // Определяем количество разрядов
+  const digitCount = Math.floor(Math.log10(max) + 1);
+  
+  // Создаем корзины для каждой цифры
+  const buckets = Array.from({ length: 10 }, () => []);
+  
+  // Выполняем сортировку для каждого разряда
+  for (let i = 0; i < digitCount; i++) {
+    // Распределяем элементы по корзинам на основе текущего разряда
+    for (let j = 0; j < arr.length; j++) {
+      const digit = Math.floor(arr[j] / Math.pow(10, i)) % 10;
+      buckets[digit].push(arr[j]);
+    }
+    
+    // Объединяем элементы из всех корзин
+    arr = [].concat(...buckets);
+    
+    // Очищаем корзины перед следующей итерацией
+    for (let k = 0; k < buckets.length; k++) {
+      buckets[k] = [];
+    }
+  }
+  
+  return arr;
+}
+// Пример использования
+const arr = [170, 45, 75, 90, 802, 24, 2, 66];
+const sortedArr = radixSort(arr);
+console.log(sortedArr); // [2, 24, 45, 66, 75, 90, 170, 802]
+```
+А вот пример реализации корневой сортировки на чистом C:
+```c
+#include <stdio.h>
+void countingSort(int arr[], int n, int exp) {
+  int output[n];
+  int count[10] = {0};
+  
+  // Подсчитываем количество вхождений каждой цифры
+  for (int i = 0; i < n; i++) {
+    count[(arr[i] / exp) % 10]++;
+  }
+  
+  // Вычисляем позиции цифр в итоговом массиве
+  for (int i = 1; i < 10; i++) {
+    count[i] += count[i - 1];
+  }
+  
+  // Размещаем элементы в итоговом массиве в правильном порядке
+  for (int i = n - 1; i >= 0; i--) {
+    output[count[(arr[i] / exp) % 10] - 1] = arr[i];
+    count[(arr[i] / exp) % 10]--;
+  }
+  
+  // Копируем отсортированный массив обратно в исходный
+  for (int i = 0; i < n; i++) {
+    arr[i] = output[i];
+  }
+}
+void radixSort(int arr[], int n) {
+  // Находим максимальное число в массиве
+  int max = arr[0];
+  for (int i = 1; i < n; i++) {
+    if (arr[i] > max) {
+      max = arr[i];
+    }
+  }
+  
+  // Выполняем сортировку для каждого разряда
+  for (int exp = 1; max / exp > 0; exp *= 10) {
+    countingSort(arr, n, exp);
+  }
+}
+// Пример использования
+int main() {
+  int arr[] = {170, 45, 75, 90, 802, 24, 2, 66};
+  int n = sizeof(arr) / sizeof(arr[0]);
+  
+  radixSort(arr, n);
+  
+  printf("Отсортированный массив: ");
+  for (int i = 0; i < n; i++) {
+    printf("%d ", arr[i]);
+  }
+  
+  return 0;
+}
+```
+Оба примера демонстрируют реализацию корневой сортировки на JavaScript и чистом C соответственно.

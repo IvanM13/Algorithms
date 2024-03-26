@@ -1,0 +1,159 @@
+function gaussJordan(matrix) {
+  const numRows = matrix.length;
+  const numCols = matrix[0].length;
+  
+  for (let col = 0; col < numCols - 1; col++) {
+    let maxRow = col;
+    for (let row = col + 1; row < numRows; row++) {
+      if (Math.abs(matrix[row][col]) > Math.abs(matrix[maxRow][col])) {
+        maxRow = row;
+      }
+    }
+    [matrix[col], matrix[maxRow]] = [matrix[maxRow], matrix[col]];
+    
+    for (let row = 0; row < numRows; row++) {
+      if (row !== col) {
+        const factor = matrix[row][col] / matrix[col][col];
+        for (let i = col; i < numCols; i++) {
+          matrix[row][i] -= matrix[col][i] * factor;
+        }
+      }
+    }
+  }
+  
+  for (let row = 0; row < numRows; row++) {
+    const divisor = matrix[row][row];
+    for (let col = 0; col < numCols; col++) {
+      matrix[row][col] /= divisor;
+    }
+  }
+  
+  return matrix;
+}
+const matrix = [
+  [2, 1, -1, 8],
+  [-3, -1, 2, -11],
+  [-2, 1, 2, -3]
+];
+const result = gaussJordan(matrix);
+console.log(result);
+
+
+#include <stdio.h>
+void gaussJordan(float matrix[][4], int numRows) {
+  int numCols = 4;
+  
+  for (int col = 0; col < numCols - 1; col++) {
+    int maxRow = col;
+    for (int row = col + 1; row < numRows; row++) {
+      if (fabs(matrix[row][col]) > fabs(matrix[maxRow][col])) {
+        maxRow = row;
+      }
+    }
+    for (int i = 0; i < numCols; i++) {
+      float temp = matrix[col][i];
+      matrix[col][i] = matrix[maxRow][i];
+      matrix[maxRow][i] = temp;
+    }
+    
+    for (int row = 0; row < numRows; row++) {
+      if (row != col) {
+        float factor = matrix[row][col] / matrix[col][col];
+        for (int i = col; i < numCols; i++) {
+          matrix[row][i] -= matrix[col][i] * factor;
+        }
+      }
+    }
+  }
+  
+  for (int row = 0; row < numRows; row++) {
+    float divisor = matrix[row][row];
+    for (int col = 0; col < numCols; col++) {
+      matrix[row][col] /= divisor;
+    }
+  }
+}
+int main() {
+  float matrix[3][4] = {
+    {2, 1, -1, 8},
+    {-3, -1, 2, -11},
+    {-2, 1, 2, -3}
+  };
+  int numRows = 3;
+  
+  gaussJordan(matrix, numRows);
+  
+  for (int row = 0; row < numRows; row++) {
+    for (int col = 0; col < 4; col++) {
+      printf("%.2f ", matrix[row][col]);
+    }
+    printf("\n");
+  }
+  
+  return 0;
+}
+
+namespace Gauss_Jordan_Method
+{
+    class Maths
+    {
+        /// <summary>
+        /// Метод Гаусса-Жордана (Обратная матрица)
+        /// </summary>
+        /// <param name="Matrix">Начальная матрица</param>
+        /// <returns></returns>
+        public static double[,] GaussJordan(double[,] Matrix)
+        {
+            int n = Matrix.GetLength(0); //Размерность начальной матрицы
+
+            double[,] xirtaM = new double[n, n]; //Единичная матрица (искомая обратная матрица)
+            for (int i = 0; i < n; i++)
+                xirtaM[i, i] = 1;
+
+            double[,] Matrix_Big = new double[n, 2*n]; //Общая матрица, получаемая скреплением Начальной матрицы и единичной
+            for (int i = 0; i < n; i++)
+                for (int j = 0; j < n; j++)
+                {
+                    Matrix_Big[i, j] = Matrix[i, j];
+                    Matrix_Big[i, j + n] = xirtaM[i, j];
+                }
+
+            //Прямой ход (Зануление нижнего левого угла)
+            for (int k = 0; k < n; k++) //k-номер строки
+            {
+                for (int i = 0; i < 2*n; i++) //i-номер столбца
+                    Matrix_Big[k, i] = Matrix_Big[k, i] / Matrix[k, k]; //Деление k-строки на первый член !=0 для преобразования его в единицу
+                for (int i = k + 1; i < n; i++) //i-номер следующей строки после k
+                {
+                    double K = Matrix_Big[i, k] / Matrix_Big[k, k]; //Коэффициент
+                    for (int j = 0; j < 2*n; j++) //j-номер столбца следующей строки после k
+                        Matrix_Big[i, j] = Matrix_Big[i, j] - Matrix_Big[k, j] * K; //Зануление элементов матрицы ниже первого члена, преобразованного в единицу
+                }
+                for (int i = 0; i < n; i++) //Обновление, внесение изменений в начальную матрицу
+                    for (int j = 0; j < n; j++)
+                        Matrix[i, j] = Matrix_Big[i, j];
+            }
+
+            //Обратный ход (Зануление верхнего правого угла)
+            for (int k = n - 1; k > -1; k--) //k-номер строки
+            {
+                for (int i = 2*n - 1; i > -1; i--) //i-номер столбца
+                    Matrix_Big[k, i] = Matrix_Big[k, i] / Matrix[k, k];
+                for (int i = k - 1; i > -1; i--) //i-номер следующей строки после k
+                {
+                    double K = Matrix_Big[i, k] / Matrix_Big[k, k];
+                    for (int j = 2*n - 1; j > -1; j--) //j-номер столбца следующей строки после k
+                        Matrix_Big[i, j] = Matrix_Big[i, j] - Matrix_Big[k, j] * K;
+                }
+            }
+
+            //Отделяем от общей матрицы
+            for (int i = 0; i < n; i++)
+                for (int j = 0; j < n; j++)
+                    xirtaM[i, j] = Matrix_Big[i, j + n];
+
+            return xirtaM;        
+        }
+    }
+}
+
