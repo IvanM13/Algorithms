@@ -80,7 +80,7 @@ DoublyLinkedList.prototype.findStartingHead = function(value){
     let currentHead = this.head;
     while (currentHead.next) {
         if (currentHead.data == value) {
-            return true;
+            return currentHead;
         }
         currentHead = currentHead.next;
     }
@@ -91,12 +91,38 @@ DoublyLinkedList.prototype.findStartingTail = function(value){
     let currentTail = this.tail;
     while (currentTail.prev) {
         if (currentTail.data == value) {
-            return true;
+            return currentTail;
         }
         currentTail = currentTail.prev;
     }
     return false;
 }
+
+DoublyLinkedList.prototype.remove = function(value){
+    let currentHead = this.head;
+    if(currentHead.data == value){
+        this.head = currentHead.next;
+        this.size--;
+    }else{
+        let prev = currentHead;
+        while (currentHead.next) {
+            if(currentHead.data == value){
+                prev.next = currentHead.next;
+                prev = currentHead;
+                currentHead = currentHead.next;
+                break;
+            }
+            prev = currentHead;
+            currentHead = currentHead.next;
+        }
+        if (currentHead.data == value) {
+            prev.next = null;
+    }
+
+    this.size--;
+    }
+}
+
 
 let dll1 = new DoublyLinkedList();
 dll1.addAtFront(10);
@@ -104,9 +130,8 @@ dll1.addAtFront(12);
 dll1.addAtFront(20);
 dll1.insertAtTail('tail');
 dll1.addAtFront('Head');
+dll1.addAtFront(120)
 dll1.deleteAtTail();
-let r = dll1.findStartingHead(20);
+let r = dll1.findStartingHead(12);
 console.log(r);
-console.log(dll1.findStartingTail(200));
-console.log(dll1.head);
-console.log(dll1.tail);
+console.log(dll1.findStartingTail(10));
