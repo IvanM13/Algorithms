@@ -18,4 +18,4 @@ function findSimpleNumber(max) {
     return result;       
 }
 
-console.log(findSimpleNumber(10));
+console.log(findSimpleNumber(100));

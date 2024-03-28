@@ -1,28 +1,29 @@
-function swap(a, b) {
-    let tmp = a;
-    a = b;
-    b = tmp;
+function swap(arr, a, b) {
+    let tmp = arr[a];
+    arr[a] = arr[b];
+    arr[b] = tmp;
 }
 
 function permute(arr, start, end) {
     if(start === end){
-       console.log(arr);
+        console.log(arr);
        return;
     }
     for (let i = start; i <= end; i++){
         // let tmp  = arr[start];
         // arr[start] = arr[i];
         // arr[i] = tmp;
-        // swap(arr[i], arr[start])
+        swap(arr, start, i);
         permute(arr, start + 1, end);
         // tmp  = arr[start];
         // arr[start] = arr[i];
         // arr[i] = tmp;
+        swap(arr, start, i);
         // swap(arr[i], arr[start])
 
     }
 }
-let arr = [1,3,4,5,7];
+let arr = [1,2,3,4];
 permute(arr, 0, arr.length - 1);
 console.log();
 // let arr1 = [1,2,3];

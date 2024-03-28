@@ -58,15 +58,22 @@ function directSort(arr) {
       }
     }
     if (i !== minPosition) {
-      let tmp = arr[i];
-      arr[i] = arr[minPosition]; 
-      arr[minPosition] = tmp;
+      // let tmp = arr[i];
+      // arr[i] = arr[minPosition]; 
+      // arr[minPosition] = tmp;
+      swap(arr, i, minPosition);
     }
 
   }
 
   return arr;
 
+}
+
+function swap(arr, a, b) {
+    let tmp = arr[a];
+    arr[a] = arr[b];
+    arr[b] = tmp;
 }
 
 // Пример использования
