@@ -80,8 +80,24 @@ function binarySearch4(arr, key, low, high) {
     } else {
         return binarySearch(arr, key, middle + 1, high);
     }
+}
 
 
+function binarySearch5(key, arr) {
+    let a = 0, b = arr.length - 1;
+
+    do {
+        let c = Math.floor((a + b) / 2);
+        if (arr[c] > key) {
+            b = c - 1;
+        }else if(arr[c] < key){
+            a = c + 1;
+        }else{
+            return c;
+        }
+    } while (a <= b);
+
+    return false;
 }
 
 
@@ -100,7 +116,7 @@ var rl = readline.createInterface(
 
 rl.question("Enter number: ", function(n){
 
-    console.log("Index of digit = " + binarySearch4(n, arr, 0, arr.length));
+    console.log("Index of digit = " + binarySearch5(n, arr));
     rl.close()
 })
 
