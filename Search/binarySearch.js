@@ -100,8 +100,7 @@ function binarySearch5(key, arr) {
     return false;
 }
 
-
-arr = [1,3,5,7,9,11,13,56];
+let arr = [1,3,5,7,9,11,13,56];
 
 // console.log(binarySearch2(56, arr));
 
