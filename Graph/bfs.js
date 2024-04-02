@@ -1,14 +1,14 @@
-function bfs(graph, startNode) {
+function bfs(graph, startNode, fn) {
     const visited = new Set(); // Массив посещенных узлов
     const queue = []; // Очередь для обхода узлов
 
     visited.add(startNode); // Добавляем стартовый узел в массив посещенных
     queue.push(startNode); // Добавляем стартовый узел в очередь
 
-    while (queue.length > 0) {
+    while (queue.length) {
         const currentNode = queue.shift(); // Извлекаем первый узел из очереди
 
-        console.log(currentNode); // Выводим текущий узел (можно заменить на нужные действия)
+        fn(currentNode); // Выводим текущий узел (можно заменить на нужные действия)
 
         const neighbors = graph[currentNode]; // Получаем соседей текущего узла
 
@@ -22,6 +22,19 @@ function bfs(graph, startNode) {
         }
     }
 }
+function traverseDFS(graph, vertex, fn){
+    let visited = {};
+//     _traverseDFS(graph, vertex, visited, fn);
+// }
+// function _traverseDFS(graph, vertex, visited, fn){
+    visited[vertex] = true;
+    fn(vertex);
+    for(let adjacentVertex in graph[vertex]){
+        if (!visited[adjacentVertex]) {
+            traverseDFS(adjacentVertex, visited, fn);
+        }
+    }
+}
 
 const graph = {
     A: ['B', 'C'],
@@ -31,5 +44,25 @@ const graph = {
     E: ['B', 'F'],
     F: ['C', 'E']
 };
-bfs(graph, 'D');
 
+const graph2 = {
+    A: ['B', 'D'],
+    B: ['C'],
+    C: [],
+    D: [],
+
+
+}
+
+bfs(graph, 'A', (vertex)=>{
+    console.log(vertex);
+});
+
+traverseDFS(graph, 'A', (v) =>{
+    console.log(v);
+});
+
+console.log();
+bfs(graph2, 'A', (vertex)=>{
+    console.log(vertex);
+});

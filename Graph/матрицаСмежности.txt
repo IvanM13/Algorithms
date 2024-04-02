@@ -1,0 +1,60 @@
+Вот примеры алгоритма представления графа в виде матрицы смежности на JavaScript и на чистом C:
+JavaScript:
+function createAdjacencyMatrix(numVertices, edges) {
+  const matrix = [];
+  
+  for (let i = 0; i < numVertices; i++) {
+    matrix.push(new Array(numVertices).fill(0));
+  }
+  
+  for (const [vertex1, vertex2] of edges) {
+    matrix[vertex1][vertex2] = 1;
+    matrix[vertex2][vertex1] = 1; // Если граф неориентированный
+  }
+  
+  return matrix;
+}
+const numVertices = 4;
+const edges = [[0, 1], [1, 2], [2, 3], [3, 0]];
+const adjacencyMatrix = createAdjacencyMatrix(numVertices, edges);
+console.log(adjacencyMatrix);
+
+Чистый C:
+#include <stdio.h>
+#include <stdlib.h>
+#define NUM_VERTICES 4
+void createAdjacencyMatrix(int numVertices, int numEdges, int edges[][2], int matrix[][NUM_VERTICES]) {
+  for (int i = 0; i < numVertices; i++) {
+    for (int j = 0; j < numVertices; j++) {
+      matrix[i][j] = 0;
+    }
+  }
+  
+  for (int i = 0; i < numEdges; i++) {
+    int vertex1 = edges[i][0];
+    int vertex2 = edges[i][1];
+    matrix[vertex1][vertex2] = 1;
+    matrix[vertex2][vertex1] = 1; // Если граф неориентированный
+  }
+}
+void printMatrix(int numVertices, int matrix[][NUM_VERTICES]) {
+  for (int i = 0; i < numVertices; i++) {
+    for (int j = 0; j < numVertices; j++) {
+      printf("%d ", matrix[i][j]);
+    }
+    printf("\n");
+  }
+}
+int main() {
+  int numVertices = 4;
+  int numEdges = 4;
+  int edges[][2] = {{0, 1}, {1, 2}, {2, 3}, {3, 0}};
+  int adjacencyMatrix[NUM_VERTICES][NUM_VERTICES];
+  
+  createAdjacencyMatrix(numVertices, numEdges, edges, adjacencyMatrix);
+  printMatrix(numVertices, adjacencyMatrix);
+  
+  return 0;
+}
+
+Оба примера реализуют алгоритм представления графа в виде матрицы смежности. В JavaScript примере используется двумерный массив для создания и заполнения матрицы смежности, а в C примере используется двумерный массив для создания и заполнения матрицы смежности. Оба примера выводят матрицу смежности на консоль.

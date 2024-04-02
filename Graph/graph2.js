@@ -36,7 +36,7 @@ class Graph {
             }
         }
     }
-    
+
     traverseDFS(vertex, fn){
         let visited = {};
         this._traverseDFS(vertex, visited, fn);
@@ -100,7 +100,9 @@ let digraph1 = new DirectedGraph();
 digraph1.addVertex('A');
 digraph1.addVertex('B');
 digraph1.addVertex('C');
+digraph1.addVertex('D');
 digraph1.addEdge('A', 'B', 1);
+digraph1.addEdge('A', 'D', 1)
 digraph1.addEdge('B', 'C', 2);
 digraph1.addEdge('C', 'A', 3);
 // digraph1.removeEdge("A", 'B');
@@ -110,7 +112,7 @@ digraph1.traverseBFS('A', (vertex) => {
     console.log(vertex);
 });
 console.log();
-digraph1.traverseDFS('C', (vertex) => {
+digraph1.traverseDFS('A', (vertex) => {
     console.log(vertex);
 });
 
