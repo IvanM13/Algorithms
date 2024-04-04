@@ -50,6 +50,31 @@ class Graph {
             }
         }
     }
+    dijkstra(source){
+        let Q = {},
+            dist = {};
+        
+        for (let vertex in this.edges) {
+            dist[vertex] = Infinity;
+            Q[vertex] = this.edges[vertex];
+        }
+    
+        dist[source] = 0;
+    
+        while(!_isEmpty(Q)){
+            let u = _extractMin(Q, dist);
+    
+            delete Q[u];
+    
+            for (let neighbor in this.edges) {
+                let alt = dist[u] + this.edges[u][neighbor];
+                if (alt < dist[neighbor]) {
+                    dist[neighbor] = alt;
+                }
+            }
+        }
+        return dist;
+    }
 }
 
 
@@ -62,6 +87,22 @@ class UndirectedGraph extends Graph {
         this.edges[vertex1][vertex2] = weight;
         this.edges[vertex2][vertex1] = weight;
     }
+}
+
+function _isEmpty(obj) {
+    return Object.keys(obj).length === 0;
+}
+
+function _extractMin(Q, dist) {
+    let minimumDistance = Infinity;
+        nodeWithMinimumDistance = null;
+    for (const node in Q) {
+        if (dist[node] <= minimumDistance) {
+            minimumDistance = dist[node];
+            nodeWithMinimumDistance = node;
+        }
+    }
+    return nodeWithMinimumDistance;
 }
 
 class DirectedGraph extends Graph {
@@ -90,9 +131,6 @@ graph1.traverseBFS(5, (vertex) => {
     console.log(vertex);
 });
 
-graph1.removeVertex(4);
-graph1.removeVertex(1);
-graph1.removeEdge(2, 3);
 console.log(graph1.edges);
 
 
@@ -101,10 +139,14 @@ digraph1.addVertex('A');
 digraph1.addVertex('B');
 digraph1.addVertex('C');
 digraph1.addVertex('D');
+digraph1.addVertex('E');
+digraph1.addVertex('F');
 digraph1.addEdge('A', 'B', 1);
-digraph1.addEdge('A', 'D', 1)
-digraph1.addEdge('B', 'C', 2);
-digraph1.addEdge('C', 'A', 3);
+digraph1.addEdge('B', 'C', 1)
+digraph1.addEdge('C', 'A', 2);
+digraph1.addEdge('A', 'D', 3);
+digraph1.addEdge('C', 'E', 5);
+digraph1.addEdge('D', 'F', 3);
 // digraph1.removeEdge("A", 'B');
 console.log(digraph1);
 
@@ -116,4 +158,6 @@ digraph1.traverseDFS('A', (vertex) => {
     console.log(vertex);
 });
 
+console.log(digraph1.dijkstra('A'));
+console.log(graph1.dijkstra(1));
 

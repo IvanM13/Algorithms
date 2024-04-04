@@ -65,3 +65,6 @@ const edges = [[0, 1], [3, 1], [2, 2], [3, 2], [4, 1]];
 const numVertices = edges.length;
 const adjacencyMatrix = createAdjacencyMatrix(numVertices, edges);
 console.log(adjacencyMatrix);
+
+const graph2 = [[0, 5], [5, 2], [2, 7], [1, 4], [4, 3], [6, 6]];
+console.log(createAdjacencyMatrix(8, graph2));
