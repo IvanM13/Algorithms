@@ -22,16 +22,21 @@ function bfs(graph, startNode, fn) {
         }
     }
 }
-function traverseDFS(graph, vertex, fn){
-    let visited = {};
-//     _traverseDFS(graph, vertex, visited, fn);
-// }
-// function _traverseDFS(graph, vertex, visited, fn){
-    visited[vertex] = true;
-    fn(vertex);
-    for(let adjacentVertex in graph[vertex]){
-        if (!visited[adjacentVertex]) {
-            traverseDFS(adjacentVertex, visited, fn);
+class Graph {
+    constructor() {
+        this.edges = {};
+    }
+    traverseDFS(vertex, fn) {
+        let visited = {};
+        this._traverseDFS(vertex, visited, fn);
+    }
+    _traverseDFS(vertex, visited, fn) {
+        visited[vertex] = true;
+        fn(vertex);
+        for (let adjacentVertex in this.edges[vertex]) {
+            if (!visited[adjacentVertex]) {
+                this._traverseDFS(adjacentVertex, visited, fn);
+            }
         }
     }
 }
@@ -45,24 +50,23 @@ const graph = {
     F: ['C', 'E']
 };
 
-const graph2 = {
-    A: ['B', 'D'],
-    B: ['C'],
-    C: [],
-    D: [],
-
-
+const graph2 = new Graph();
+graph2.edges = {
+    A: { B: 1, D: 3 },
+    B: { C: 1 },
+    C: { A: 2, E: 5 },
+    D: { F: 3 },
+    E: {},
+    F: {}
 }
+
+graph2.traverseDFS('A', (v) => {
+    console.log(v);
+})
+
+
 
 bfs(graph, 'A', (vertex)=>{
     console.log(vertex);
 });
 
-traverseDFS(graph, 'A', (v) =>{
-    console.log(v);
-});
-
-console.log();
-bfs(graph2, 'A', (vertex)=>{
-    console.log(vertex);
-});

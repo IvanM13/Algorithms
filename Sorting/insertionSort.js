@@ -37,6 +37,19 @@ function insertSort(arr) {
     return arr;
 }
 
+function insertionSort2(arr) {
+    let len = arr.length, value, i, j;
+    for (i = 0; i < len; i++) {
+        value = arr[i];
+        for (j = i - 1; j >= 0 && arr[j] > value; j--) {
+            arr[j + 1] = arr[j];            
+        }
+        arr[j + 1] = value;
+    }
+    return arr;
+
+}
+
 const rand = function(arr){
     let n = 9;
     for(let i = 0; i < n; i++){
@@ -55,5 +68,5 @@ rand(mass2);
 
 console.log(mass2);
 
-console.log(insertSort(mass2));
+console.log(insertionSort2(mass2));
 

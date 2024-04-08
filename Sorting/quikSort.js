@@ -13,9 +13,9 @@ function quickSort(arr){
         }
     }
     return [...quickSort(left), pivot, ...quickSort(right)];
-
-
 }
+
+
 
 mass = [4,1,6,7,9,3,2,8,5];
 
