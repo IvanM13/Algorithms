@@ -112,6 +112,29 @@ class DirectedGraph extends Graph {
         }
         this.edges[origVertex][destVertex] = weigth;
     }
+
+    topologicalSortUtil(v, visited, stack){
+        visited.add(v);
+
+        for (const item in this.edges[v]) {
+            if (visited.has(item) === false) {
+                this.topologicalSortUtil(item, visited, stack)                
+            }
+        }
+        stack.push(v);
+    }
+
+    topologicalSort(){
+        let visited = new Set(),
+            stack = [];
+        
+        for (const item in this.edges) {
+            if (visited.has(item) === false) {
+                this.topologicalSortUtil(item, visited, stack);
+            }
+        }
+        return stack;
+    }
 }
 
 
@@ -160,4 +183,42 @@ digraph1.traverseDFS('A', (vertex) => {
 
 console.log(digraph1.dijkstra('A'));
 console.log(graph1.dijkstra(1));
+
+const g = new DirectedGraph();
+g.addVertex('A');
+g.addVertex('B');
+g.addVertex('C');
+g.addVertex('D');
+g.addVertex('E');
+g.addVertex('F');
+
+g.addEdge('B', 'A');
+g.addEdge('D', 'C');
+g.addEdge('D', 'B');
+g.addEdge('B', 'A');
+g.addEdge('A', 'F');
+g.addEdge('E', 'C');
+console.log(g);
+console.log(g.topologicalSort());
+
+const g2 = new DirectedGraph();
+g2.addVertex('A');
+g2.addVertex('B');
+g2.addVertex('C');
+g2.addVertex('D');
+g2.addVertex('E');
+g2.addVertex('F');
+g2.addVertex('G');
+g2.addVertex('H');
+
+g2.addEdge('A', 'B');
+g2.addEdge('B', 'C');
+g2.addEdge('C', 'H');
+g2.addEdge('D', 'C');
+g2.addEdge('E', 'D');
+g2.addEdge('E', 'G');
+g2.addEdge('F', 'E');
+g2.addEdge('G', 'C');
+console.log(g2);
+console.log(g2.topologicalSort());
 
