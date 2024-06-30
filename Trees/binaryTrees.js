@@ -182,14 +182,14 @@ BinarySearchTree.prototype.findNode = function(value) {
             currentRoot = currentRoot.right;
         } else {
             //we've found the node
-            found = currentRoot;
+            found = true;
             break;
         }
     }
     return found;
 }
 var bst1 = new BinarySearchTree();
-bst1.insert(1);
+bst1.insert(11);
 bst1.insert(3);
 bst1.insert(5);
 bst1.insert(2);
@@ -199,3 +199,5 @@ bst1.insert(89);
 console.log(bst1.findNode(3)); // true
 console.log(bst1.findNode(89));
 console.log(bst1.findNode(5));
+console.log(bst1.findNode(54));
+console.log(bst1);

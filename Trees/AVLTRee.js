@@ -138,6 +138,26 @@ AVLTree.prototype.remove = function(value) {
         return root;
     }
 }
+AVLTree.prototype.findNode = function(value) {
+    let currentRoot = this,
+        found = false;
+    while (currentRoot) {
+        if (currentRoot.value > value) {
+            currentRoot = currentRoot.left;
+        } else if (currentRoot.value < value) {
+            currentRoot = currentRoot.right;
+        } else {
+            //we've found the node
+            found = true;
+            break;
+        }
+    }
+    return found;
+}
+AVLTree.prototype.getBuffer = function() {
+    return this;
+}
+
 var avlTest = new AVLTree(1, '');
 avlTest.insert(2);
 avlTest.insert(3);
@@ -146,4 +166,6 @@ avlTest.insert(5);
 avlTest.insert(123);
 avlTest.insert(203);
 avlTest.insert(2222);
+// console.log(avlTest);
 console.log(avlTest);
+console.log(avlTest.findNode(44));

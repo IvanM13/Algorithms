@@ -45,7 +45,7 @@ HashTable.prototype.hash = function(key) {
     return key % this.size;
 }
 
-const table = new HashTable(6);
+const table = new HashTable(12);
 table.put(3, "hello");
 table.put(23, "sunny");
 table.put(33, "world");

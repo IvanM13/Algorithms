@@ -150,7 +150,7 @@ graph1.addEdge(3, 4, 10);
 graph1.addEdge(4, 5, 100);
 console.log(graph1.edges);
 
-graph1.traverseBFS(5, (vertex) => {
+graph1.traverseBFS(3, (vertex) => {
     console.log(vertex);
 });
 
